@@ -9,10 +9,10 @@ import re
 # Declare some needed variables
 # time_range = overall time range to be searched
 # time_crystals = discrete buckets of time  you want to chunk the search into (extra points for the Star Trek reference!)
-time_earliest = 86400
-time_latest = 43200
+time_earliest = 201
+time_latest = 1
 time_diff = time_earliest-time_latest
-time_crystals = 900
+time_crystals = 50
 num_jobs = time_diff/time_crystals
 num_jobs = int(round(num_jobs))
 
