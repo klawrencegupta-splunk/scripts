@@ -1,0 +1,27 @@
+#!/usr/bin/python
+__author__ = 'klawre201'
+
+import subprocess
+import csv
+import sys
+
+#CSV you wantto read from
+path = "/usr/local/bin/20.csv"
+account_info = "admin:password"
+new_owner = "svc_splunkadmin"
+
+#Open it up and read it into a nice array with headers as object names
+csvfile = open(path)
+reader = csv.DictReader(csvfile)
+
+for row in reader:
+    searchName = row['title']
+    searchName = searchName.replace(" ", "%20")
+    searchName = searchName.strip('"')
+    owner = row['author']
+    searchHead = row['splunk_server']
+    app = row['app']
+    #print searchName +" "+ searchHead +" "+ owner +" "+ app
+    curl_cmd = "curl -k -u " + account_info +" -d 'owner="+new_owner + "' -d 'sharing=app' http://"+searchHead+":8089/servicesNS/"+owner+"/"+app+"/saved/searches/"+searchName+"/acl"
+    print curl_cmd
+    curl = subprocess.Popen(curl_cmd,bufsize=512,shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
